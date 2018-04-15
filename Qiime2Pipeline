@@ -1,0 +1,79 @@
+#####################################################################
+#Activate Qiime2
+#####################################################################
+
+source activate qiime2-2017.12
+
+#####################################################################
+#Dada2 processing
+#This is done seperately for each plate
+#An example plate is shown below
+#####################################################################
+
+qiime tools import --type SampleData[PairedEndSequencesWithQuality] --input-path OM156Manifest.csv  --output-path paired-end-demuxRound2_OM156.qza --source-format PairedEndFastqManifestPhred33 
+qiime dada2 denoise-paired --i-demultiplexed-seqs paired-end-demuxRound2_OM156.qza --o-table tableRound2_OM156.qza --o-representative-sequences rep-seqsRound2_OM156.qza --p-trim-left-f 22 --p-trim-left-r 22 --p-trunc-len-f 250 --p-trunc-len-r 250 --p-n-threads 0
+qiime feature-table summarize --i-table tableRound2_OM156.qza --o-visualization tableRound2_OM156.qzv
+
+#####################################################################
+#After processing the plates seperately, merge all plates together 
+#####################################################################
+#ASV table merge
+qiime feature-table merge  --i-tables table_122306162636466676970.qza --i-tables tableRound3_OM147.qza --o-merged-table table_122306162636466676970147.qza
+
+#Rep seqs merge
+qiime feature-table merge-seqs  --i-data rep-seqsRound3_OM147.qza  --i-data rep-seqs_122306162636466676970.qza --o-merged-data rep-seqs_122306162636466676970147.qza
+
+#####################################################################
+#Create the visualizations to use with view.qiime2
+#####################################################################
+
+qiime feature-table summarize --i-table table_122306162636466676970147.qza  --o-visualization table_122306162636466676970147.qzv
+qiime feature-table tabulate-seqs --i-data rep-seqs_122306162636466676970147.qza  --o-visualization rep-seqs_122306162636466676970147.qzv
+
+#####################################################################
+#Export ASV table into an excel-compatible version
+#####################################################################
+
+qiime tools export table_122306162636466676970147.qza  -—output-dir exported
+biom convert –i feature-table.biom -o table_122306162636466676970147.tsv --to-tsv
+
+#####################################################################
+#Export rep seqs and convert to txt file
+#####################################################################
+
+qiime tools rep-seqs_122306162636466676970147.qza --output-dir rep_seqs
+seqkit fx2tab dna-sequences.fasta > dna-sequences.txt
+
+#####################################################################
+#RDP classifier through Qiime2
+#Note, it requires you to do the species level classification seperately
+#You can break up the sequences into groups to classify them if need be
+#####################################################################
+
+seq<-read.csv("dna-sequences.csv",as.is=T)
+
+set.seed(100)
+library(dada2)
+
+taxa <- assignTaxonomy(seq$Seq, "rdp_train_set_16.fa", multithread=T)
+a<-unname(taxa)
+rownames(a)<-seq$ASV
+write.csv(a,file="RDPtaxatest.csv")
+
+genus.species <- assignSpecies(seq$Seq, "rdp_species_assignment_16.fa", allowMultiple=TRUE)
+b<-unname(genus.species)
+rownames(b)<-seq$ASV
+write.csv(b,file="RDPtaxatestSpecies.csv")
+
+
+
+
+
+
+
+
+
+
+
+
+
