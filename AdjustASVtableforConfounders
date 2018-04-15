@@ -1,0 +1,100 @@
+#Projection Matrix
+#For the purpose of this code, ASV and OTU are used interchangably
+
+biom<-read.csv("table_122306162636466676970147_NosingletonNopersonton_011918.csv",as.is=T,row.names=1)
+biom<-biom[,-1]
+#transpose so that rows are samples
+otu<-as.data.frame(t(biom),as.is=T)
+
+#drop unclassifieds:
+tax<-read.csv("RDPtaxatestnosingletonpersonton.csv",as.is=T)
+tax<-tax[which(tax$V6!="NA"),]
+
+otu1<-otu[,which(colnames(otu)%in%tax$ASV==T)]
+#write.csv(otu1,file="table_122306162636466676970147_NosingletonNopersonton_011918_NOunclassified_032818.csv")
+otu<-otu1
+
+map<-read.csv("Meta_011918.csv",as.is=T,row.names=1,header=T)
+map
+
+#Remove people who do not meet study criteria
+map<-subset(map,map$Person!="G0202-1")
+map<-subset(map,map$Person!="G0202-2")
+map<-subset(map,map$Person!="G0060-1")
+map<-subset(map,map$Person!="G0060-2")
+#these are the old CSTs, but I needed this file to drop the duplicates.
+
+map1<-map[rownames(map)%in%rownames(otu)==T,]
+table(rownames(map1)==rownames(otu))
+
+map2<-map1[order(rownames(map1)),]
+otu2<-otu[order(rownames(otu)),]
+table(rownames(map2)==rownames(otu2))
+
+
+map2$A=(map2$Plate == "OM61")**2
+map2$B=(map2$Plate == "OM62")**2
+map2$C=(map2$Plate == "OM63")**2
+map2$D = (map2$Plate == "OM122")**2
+map2$E = (map2$Plate == "EIGC9_OM30")**2
+map2$G= (map2$Plate == "OM64")**2
+map2$H = (map2$Plate == "OM66-R")**2
+map2$I = (map2$Plate == "OM69")**2
+map2$J = (map2$Plate == "OM70")**2
+map2$K = (map2$Plate == "OM147")**2
+
+mapV<-subset(map2,map2$Site=="VagM1")
+mapO<-subset(map2,map2$Site=="OraM1")
+mapG<-subset(map2,map2$Site=="RecM1")
+mapV<-subset(mapV,mapV$RemoveDup==0)
+
+
+otuG<-otu2[rownames(otu2)%in%rownames(mapG)==T,]
+table(rownames(otuG)==rownames(mapG))
+
+#Have to remove OTUs with sum 0.
+otuGa<-otuG[,colSums(otuG)>0]
+library(LDM)
+
+#This adjuste=s the ASV table by plate.
+
+adj.data <- adjust.data.by.covariates(formula= ~ mapG$A+mapG$B+mapG$C+mapG$D+mapG$E+mapG$G+mapG$H+mapG$I+mapG$J, data=mapG,
+                                      otu.table=otuGa, dist.method="bray")
+resRec<-as.data.frame(adj.data$x.freq)
+
+save(resRec,file="resRec_041518.Rdata")
+
+
+#######Oral
+
+otuO<-otu2[rownames(otu2)%in%rownames(mapO)==T,]
+table(rownames(otuO)==rownames(mapO))
+
+#Have to remove OTUs with sum 0.
+otuOa<-otuO[,colSums(otuO)>0]
+library(LDM)
+
+
+adj.data <- adjust.data.by.covariates(formula= ~ mapO$A+mapO$B+mapO$C+mapO$D+mapO$E+mapO$G+mapO$H+mapO$I+mapO$J, data=mapO,
+                                      otu.table=otuOa, dist.method="bray")
+resOra<-as.data.frame(adj.data$x.freq)
+
+save(resOra,file="resOra_041518.Rdata")
+
+######Vaginal
+
+
+otuV<-otu2[rownames(otu2)%in%rownames(mapV)==T,]
+table(rownames(otuV)==rownames(mapV))
+
+#Have to remove OTUs with sum 0.
+otuVa<-otuV[,colSums(otuV)>0]
+library(LDM)
+
+
+adj.data <- adjust.data.by.covariates(formula= ~ mapV$A+mapV$B+mapV$C+mapV$D+mapV$E+mapV$G+mapV$H+mapV$I+mapV$J, data=mapV,
+                                      otu.table=otuVa, dist.method="bray")
+
+resVag<-as.data.frame(adj.data$x.freq)
+
+save(resVag,file="resVag_041518.Rdata")
