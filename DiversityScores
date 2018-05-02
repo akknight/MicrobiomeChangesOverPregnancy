@@ -1,0 +1,88 @@
+
+#Much of this code is adapted from: http://deneflab.github.io/MicrobeMiseq/demos/mothur_2_phyloseq.html#alpha_diversity
+#These diversity scores are not adjusted for any covariates
+
+library(phyloseq)
+biom<-read.csv("table_122306162636466676970147_NosingletonNopersonton_011918.csv",as.is=T,row.names=1)
+map<-read.csv("MapwithCSTS_03158.csv",as.is=T,row.names=1,header=T)
+
+biom<-biom[,-1]
+
+tax<-read.csv("RDPtaxatest_80.csv",as.is=T)
+biom<-as.matrix(biom)
+biom<-biom[,order(colnames(biom))]
+map<-map[order(rownames(map)),]
+
+
+map<-subset(map,map$Site!="NA")
+map<-subset(map,map$Site!="Pos")
+map<-subset(map,map$Site!="Neg")
+map<-subset(map,map$RemoveDup==0)
+
+
+map<-subset(map,map$Person!="G0202")
+map<-subset(map,map$Person!="G0060")
+
+OTU = otu_table(biom, taxa_are_rows = TRUE)
+MAP=sample_data(map)
+rownames(tax)<-tax$ASV
+tax<-tax[,-1]
+tax<-subset(tax,tax$X6!="NA")
+tax<-as.matrix(tax)
+
+TAX=tax_table(tax)
+
+physeq80 = phyloseq(OTU,MAP,TAX)
+
+physeq1 = prune_samples(sample_sums(physeq80)>2000,physeq80)
+
+min_lib <- min(sample_sums(physeq1))
+# 2027
+
+set.seed(3)
+
+
+nsamp = 762
+trials = 1000
+
+richness <- matrix(nrow = nsamp, ncol = trials)
+row.names(richness) <- sample_names(physeq1)
+
+evenness <- matrix(nrow = nsamp, ncol = trials)
+row.names(evenness) <- sample_names(physeq1)
+
+
+for (i in 1:1000) {
+  # Subsample
+  r <- rarefy_even_depth(physeq1, sample.size = min_lib, verbose = T, replace = TRUE)
+  
+  # Calculate richness
+  rich <- estimate_richness(r, measures = "Chao1")
+  richness[ ,i] <- rich[,1]
+  
+  # Calculate evenness
+  even <- as.numeric(as.matrix(estimate_richness(r, measures = "Shannon")))
+  evenness[ ,i] <- even
+}
+
+
+
+
+
+SampleID <- row.names(richness)
+mean <- apply(richness, 1, mean)
+sd <- apply(richness, 1, sd)
+measure <- rep("Richness", nsamp)
+rich_stats <- data.frame(SampleID, mean, sd, measure)
+
+# Create a new dataframe to hold the means and standard deviations of evenness estimates
+SampleID <- row.names(evenness)
+mean <- apply(evenness, 1, mean)
+sd <- apply(evenness, 1, sd)
+measure <- rep("Inverse Simpson", nsamp)
+even_stats <- data.frame(SampleID, mean, sd, measure)
+
+alpha <- rbind(rich_stats, even_stats)
+
+s <- data.frame(sample_data(physeq1))
+alphadiv <- merge(alpha, s, by = "SampleID") 
