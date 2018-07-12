@@ -45,7 +45,7 @@ qiime tools rep-seqs_122306162636466676970147.qza --output-dir rep_seqs
 seqkit fx2tab dna-sequences.fasta > dna-sequences.txt
 
 #####################################################################
-#RDP classifier through Qiime2
+#RDP classifier through dada2
 #Note, it requires you to do the species level classification seperately
 #You can break up the sequences into groups to classify them if need be
 #####################################################################
