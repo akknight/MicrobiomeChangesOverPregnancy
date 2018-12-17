@@ -568,6 +568,8 @@ for (i in 1:1000) {
 
 
 
+library(phyloseq)
+
 SampleID <- row.names(richness)
 mean <- apply(richness, 1, mean)
 sd <- apply(richness, 1, sd)
@@ -575,18 +577,12 @@ measure <- rep("Richness", nsamp)
 rich_stats <- data.frame(SampleID, mean, sd, measure)
 
 
-alpha <- rbind(rich_stats, even_stats)
-
-s <- data.frame(sample_data(physeq1))
-chao1 <- merge(rich_stats, s, by.x = "SampleID",by.y="row.names") 
-
 # Calculate evenness
 r <- rarefy_even_depth(physeq1, sample.size = min_lib, verbose = T, replace = TRUE)
 even <- as.numeric(as.matrix(estimate_richness(r, measures = "Shannon")))
 evenness[ ,1] <- even
 
-chao1 <- merge(rich_stats, s, by.x = "SampleID",by.y="row.names") 
-shan <- merge(chao1, evenness, by.x = "SampleID",by.y="row.names") 
+shan <- merge(rich_stats, evenness, by.x = "SampleID",by.y="row.names") 
 
 write.csv(shan,file="NewDiversityScores_80_121718_Longformat.csv")
 
