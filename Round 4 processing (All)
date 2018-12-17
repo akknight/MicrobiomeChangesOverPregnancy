@@ -1,0 +1,595 @@
+#Run locally
+#pull files out of folders:
+
+mkdir Fastqs
+
+find MZW* -name '*gz' -exec cp {} Fastqs \;
+
+find ADU* -name '*gz' -exec cp {} Fastqs \;
+find E0* -name '*gz' -exec cp {} Fastqs \;
+find G0* -name '*gz' -exec cp {} Fastqs \;
+find 10C* -name '*gz' -exec cp {} Fastqs \;
+find 10D* -name '*gz' -exec cp {} Fastqs \;
+
+find Neg* -name '*gz' -exec cp {} Fastqs \;
+find ZRC* -name '*gz' -exec cp {} Fastqs \;
+find CONTROL* -name '*gz' -exec cp {} Fastqs \;
+
+
+#make manifests:
+
+ls . *fastq.gz >>G033_5863806Manifest1.txt
+ls . *fastq.gz >>G033-P2-71266231Manifest.txt
+ls . *fastq.gz >>G033INBIW17-P3-70950891Manifest.txt
+ls . *fastq.gz >>G187-43380337Manifest.txt
+ls . *fastq.gz >>G187-AD-65358300Manifest.txt
+ls . *fastq.gz >>G187-ADD-65358301Manifest.txt
+ls . *fastq.gz >>G187-P2-71557499Manifest.txt
+ls . *fastq.gz >>G187-P5-43974931Manifest.txt
+ls . *fastq.gz >>G187-P6-70327284Manifest.txt
+ls . *fastq.gz >>G187-P7-70305261Manifest.txt
+ls . *fastq.gz >>G187-P8-64971912Manifest.txt
+ls . *fastq.gz >>G187-P10-65358302Manifest.txt
+
+
+
+#Run on AWS
+source activate qiime2-2017.12
+
+qiime tools import --type SampleData[PairedEndSequencesWithQuality] --input-path G033_5863806Manifest1.csv  --output-path paired-end-demuxRound4_G033_5863806.qza --source-format PairedEndFastqManifestPhred33 
+
+
+
+qiime dada2 denoise-paired --i-demultiplexed-seqs paired-end-demuxRound4_G033_5863806.qza --o-table tableRound4_G033_5863806.qza --o-representative-sequences rep-seqsRound4_G033_5863806.qza --p-trim-left-f 22 --p-trim-left-r 22 --p-trunc-len-f 250 --p-trunc-len-r 250 --p-n-threads 0
+
+qiime feature-table summarize --i-table tableRound4_G033_5863806.qza --o-visualization Round4_G033_5863806.qzv
+
+#################################################
+#################################################
+
+qiime tools import --type SampleData[PairedEndSequencesWithQuality] --input-path G033-P2-71266231Manifest.csv  --output-path paired-end-demuxRound4_G033-P2-7126623.qza --source-format PairedEndFastqManifestPhred33 
+
+
+
+qiime dada2 denoise-paired --i-demultiplexed-seqs paired-end-demuxRound4_G033-P2-7126623.qza --o-table tableRound4_G033-P2-7126623.qza --o-representative-sequences rep-seqsRound4_G033-P2-7126623.qza --p-trim-left-f 22 --p-trim-left-r 22 --p-trunc-len-f 250 --p-trunc-len-r 250 --p-n-threads 0
+
+qiime feature-table summarize --i-table tableRound4_G033-P2-7126623.qza --o-visualization Round4_G033-P2-7126623.qzv
+
+#################################################
+#################################################
+
+qiime tools import --type SampleData[PairedEndSequencesWithQuality] --input-path G033INBIW17-P3-70950891Manifest.csv  --output-path paired-end-demuxRound4_G033INBIW17-P3-70950891.qza --source-format PairedEndFastqManifestPhred33 
+
+
+
+qiime dada2 denoise-paired --i-demultiplexed-seqs paired-end-demuxRound4_G033INBIW17-P3-70950891.qza --o-table tableRound4_G033INBIW17-P3-70950891.qza --o-representative-sequences rep-seqsRound4_G033INBIW17-P3-70950891.qza --p-trim-left-f 22 --p-trim-left-r 22 --p-trunc-len-f 250 --p-trunc-len-r 250 --p-n-threads 0
+
+qiime feature-table summarize --i-table tableRound4_G033INBIW17-P3-70950891.qza --o-visualization Round4_G033INBIW17-P3-70950891.qzv
+
+
+#################################################
+#################################################
+
+qiime tools import --type SampleData[PairedEndSequencesWithQuality] --input-path G187-43380337Manifest.csv  --output-path paired-end-demuxRound4_G187-43380337.qza --source-format PairedEndFastqManifestPhred33 
+
+
+
+qiime dada2 denoise-paired --i-demultiplexed-seqs paired-end-demuxRound4_G187-43380337.qza --o-table tableRound4_G187-43380337.qza --o-representative-sequences rep-seqsRound4_G187-43380337.qza --p-trim-left-f 22 --p-trim-left-r 22 --p-trunc-len-f 250 --p-trunc-len-r 250 --p-n-threads 0
+
+qiime feature-table summarize --i-table tableRound4_G187-43380337.qza --o-visualization Round4_G187-43380337.qzv
+
+
+#################################################
+#################################################
+
+qiime tools import --type SampleData[PairedEndSequencesWithQuality] --input-path G187-AD-65358300Manifest.csv  --output-path paired-end-demuxRound4_G187-AD-65358300.qza --source-format PairedEndFastqManifestPhred33 
+
+
+
+qiime dada2 denoise-paired --i-demultiplexed-seqs paired-end-demuxRound4_G187-AD-65358300.qza --o-table tableRound4_G187-AD-65358300.qza --o-representative-sequences rep-seqsRound4_G187-AD-65358300.qza --p-trim-left-f 22 --p-trim-left-r 22 --p-trunc-len-f 250 --p-trunc-len-r 250 --p-n-threads 0
+
+qiime feature-table summarize --i-table tableRound4_G187-AD-65358300.qza --o-visualization Round4_G187-AD-65358300.qzv
+
+#################################################
+#################################################
+
+qiime tools import --type SampleData[PairedEndSequencesWithQuality] --input-path G187-ADD-65358301Manifest.csv  --output-path paired-end-demuxRound4_G187-ADD-65358301.qza --source-format PairedEndFastqManifestPhred33 
+
+
+
+qiime dada2 denoise-paired --i-demultiplexed-seqs paired-end-demuxRound4_G187-ADD-65358301.qza --o-table tableRound4_G187-ADD-65358301.qza --o-representative-sequences rep-seqsRound4_G187-ADD-65358301.qza --p-trim-left-f 22 --p-trim-left-r 22 --p-trunc-len-f 250 --p-trunc-len-r 250 --p-n-threads 0
+
+qiime feature-table summarize --i-table tableRound4_G187-ADD-65358301.qza --o-visualization Round4_G187-ADD-65358301.qzv
+
+
+
+#################################################
+#################################################
+
+qiime tools import --type SampleData[PairedEndSequencesWithQuality] --input-path G187-P2-71557499Manifest.csv  --output-path paired-end-demuxRound4_G187-P2-71557499.qza --source-format PairedEndFastqManifestPhred33 
+
+
+
+qiime dada2 denoise-paired --i-demultiplexed-seqs paired-end-demuxRound4_G187-P2-71557499.qza --o-table tableRound4_G187-P2-71557499.qza --o-representative-sequences rep-seqsRound4_G187-P2-71557499.qza --p-trim-left-f 22 --p-trim-left-r 22 --p-trunc-len-f 250 --p-trunc-len-r 250 --p-n-threads 0
+
+qiime feature-table summarize --i-table tableRound4_G187-P2-71557499.qza --o-visualization Round4_G187-P2-71557499.qzv
+
+
+
+#################################################
+#################################################
+
+qiime tools import --type SampleData[PairedEndSequencesWithQuality] --input-path G187-P5-43974931Manifest.csv  --output-path paired-end-demuxRound4_G187-P5-43974931.qza --source-format PairedEndFastqManifestPhred33 
+
+
+
+qiime dada2 denoise-paired --i-demultiplexed-seqs paired-end-demuxRound4_G187-P5-43974931.qza --o-table tableRound4_G187-P5-43974931.qza --o-representative-sequences rep-seqsRound4_G187-P5-43974931.qza --p-trim-left-f 22 --p-trim-left-r 22 --p-trunc-len-f 250 --p-trunc-len-r 250 --p-n-threads 0
+
+qiime feature-table summarize --i-table tableRound4_G187-P5-43974931.qza --o-visualization Round4_G187-P5-43974931.qzv
+
+
+#################################################
+#################################################
+
+
+qiime tools import --type SampleData[PairedEndSequencesWithQuality] --input-path G187-P6-70327284Manifest.csv  --output-path paired-end-demuxRound4_G187-P6-70327284.qza --source-format PairedEndFastqManifestPhred33 
+
+
+
+qiime dada2 denoise-paired --i-demultiplexed-seqs paired-end-demuxRound4_G187-P6-70327284.qza --o-table tableRound4_G187-P6-70327284.qza --o-representative-sequences rep-seqsRound4_G187-P6-70327284.qza --p-trim-left-f 22 --p-trim-left-r 22 --p-trunc-len-f 250 --p-trunc-len-r 250 --p-n-threads 0
+
+qiime feature-table summarize --i-table tableRound4_G187-P6-70327284.qza --o-visualization Round4_G187-P6-70327284.qzv
+
+
+#################################################
+#################################################
+
+qiime tools import --type SampleData[PairedEndSequencesWithQuality] --input-path G187-P7-70305261Manifest.csv  --output-path paired-end-demuxRound4_G187-P7-70305261.qza --source-format PairedEndFastqManifestPhred33 
+
+
+
+qiime dada2 denoise-paired --i-demultiplexed-seqs paired-end-demuxRound4_G187-P7-70305261.qza --o-table tableRound4_G187-G187-P7-70305261.qza --o-representative-sequences rep-seqsRound4_G187-P7-70305261.qza --p-trim-left-f 22 --p-trim-left-r 22 --p-trunc-len-f 250 --p-trunc-len-r 250 --p-n-threads 0
+
+qiime feature-table summarize --i-table tableRound4_G187-P7-70305261.qza --o-visualization Round4_G187-P7-70305261.qzv
+
+#################################################
+#################################################
+
+
+qiime tools import --type SampleData[PairedEndSequencesWithQuality] --input-path G187-P8-64971912Manifest.csv  --output-path paired-end-demuxRound4_G187-P8-64971912.qza --source-format PairedEndFastqManifestPhred33 
+
+
+
+qiime dada2 denoise-paired --i-demultiplexed-seqs paired-end-demuxRound4_G187-P8-64971912.qza --o-table tableRound4_G187-P8-64971912.qza --o-representative-sequences rep-seqsRound4_G187-P8-64971912.qza --p-trim-left-f 22 --p-trim-left-r 22 --p-trunc-len-f 250 --p-trunc-len-r 250 --p-n-threads 0
+
+qiime feature-table summarize --i-table tableRound4_G187-P8-64971912.qza --o-visualization Round4_G187-P8-64971912.qzv
+
+
+
+#################################################
+#################################################
+
+
+qiime tools import --type SampleData[PairedEndSequencesWithQuality] --input-path G187-P10-65358302Manifest.csv  --output-path paired-end-demuxRound4_G187-P10-65358302.qza --source-format PairedEndFastqManifestPhred33 
+
+
+
+qiime dada2 denoise-paired --i-demultiplexed-seqs paired-end-demuxRound4_G187-P10-65358302.qza --o-table tableRound4_G187-P10-65358302.qza --o-representative-sequences rep-seqsRound4_G187-P10-65358302.qza --p-trim-left-f 22 --p-trim-left-r 22 --p-trunc-len-f 250 --p-trunc-len-r 250 --p-n-threads 0
+
+qiime feature-table summarize --i-table tableRound4_G187-P10-65358302.qza --o-visualization Round4_G187-P10-65358302.qzv
+
+#################################################
+#################################################
+#Merge together
+
+#ASV table merge
+qiime feature-table merge  --i-tables tableRound4_G033_5863806.qza --i-tables tableRound4_G033-P2-7126623.qza --o-merged-table tableRound4_G033_5863806_G033-P2-71266231.qza
+
+#Rep seqs merge
+qiime feature-table merge-seqs  --i-data rep-seqsRound4_G033_5863806.qza  --i-data rep-seqsRound4_G033-P2-7126623.qza --o-merged-data rep-seqs_G033_5863806_G033-P2-71266231.qza
+
+#################################################
+
+
+qiime feature-table merge  --i-tables tableRound4_G033_5863806_G033-P2-71266231.qza --i-tables tableRound4_G033INBIW17-P3-70950891.qza --o-merged-table tableRound4_G033_5863806_G033-P2-71266231_G033INBIW17-P3-70950891.qza
+
+qiime feature-table merge-seqs  --i-data rep-seqs_G033_5863806_G033-P2-71266231.qza  --i-data rep-seqsRound4_G033INBIW17-P3-70950891.qza --o-merged-data rep-seqs_G033_5863806_G033-P2-71266231_G033INBIW17-P3-70950891.qza
+
+#################################################
+qiime feature-table merge  --i-tables tableRound4_G033_5863806_G033-P2-71266231_G033INBIW17-P3-70950891.qza --i-tables tableRound4_G187-43380337.qza --o-merged-table tableRound4_G033_5863806_G033-P2-71266231_G033INBIW17-P3-70950891_G187-43380337.qza
+
+qiime feature-table merge-seqs  --i-data rep-seqs_G033_5863806_G033-P2-71266231_G033INBIW17-P3-70950891.qza  --i-data rep-seqsRound4_G187-43380337.qza --o-merged-data rep-seqs_G033_5863806_G033-P2-71266231_G033INBIW17-P3-70950891_G187-43380337.qza
+
+
+#################################################
+qiime feature-table merge  --i-tables tableRound4_G033_5863806_G033-P2-71266231_G033INBIW17-P3-70950891_G187-43380337.qza --i-tables tableRound4_G187-AD-65358300.qza --o-merged-table tableRound4_G033_5863806_G033-P2-71266231_G033INBIW17-P3-70950891_G187-43380337_G187-AD-65358300.qza
+
+qiime feature-table merge-seqs  --i-data rep-seqs_G033_5863806_G033-P2-71266231_G033INBIW17-P3-70950891_G187-43380337.qza  --i-data rep-seqsRound4_G187-AD-65358300.qza --o-merged-data rep-seqs_G033_5863806_G033-P2-71266231_G033INBIW17-P3-70950891_G187-43380337_G187-AD-65358300.qza
+
+
+
+#################################################
+
+qiime feature-table merge  --i-tables tableRound4_G033_5863806_G033-P2-71266231_G033INBIW17-P3-70950891_G187-43380337_G187-AD-65358300.qza --i-tables tableRound4_G187-ADD-65358301.qza --o-merged-table tableRound4_G033_5863806_G033-P2-71266231_G033INBIW17-P3-70950891_G187-43380337_G187-AD-65358300_ADD-65358301.qza
+
+qiime feature-table merge-seqs  --i-data rep-seqs_G033_5863806_G033-P2-71266231_G033INBIW17-P3-70950891_G187-43380337_G187-AD-65358300.qza  --i-data rep-seqsRound4_G187-ADD-65358301.qza --o-merged-data rep-seqs_G033_5863806_G033-P2-71266231_G033INBIW17-P3-70950891_G187-43380337_G187-AD-65358300_ADD-65358301.qza
+
+#################################################
+qiime feature-table merge  --i-tables tableRound4_G033_5863806_G033-P2-71266231_G033INBIW17-P3-70950891_G187-43380337_G187-AD-65358300_ADD-65358301.qza --i-tables tableRound4_G187-P2-71557499.qza --o-merged-table tableRound4_G033_5863806_G033-P2-71266231_G033INBIW17-P3-70950891_G187-43380337_G187-AD-65358300_ADD-65358301_P2-71557499.qza
+
+qiime feature-table merge-seqs  --i-data rep-seqs_G033_5863806_G033-P2-71266231_G033INBIW17-P3-70950891_G187-43380337_G187-AD-65358300_ADD-65358301.qza  --i-data rep-seqsRound4_G187-P2-71557499.qza --o-merged-data rep-seqs_G033_5863806_G033-P2-71266231_G033INBIW17-P3-70950891_G187-43380337_G187-AD-65358300_ADD-65358301_P2-71557499.qza
+
+
+#################################################
+qiime feature-table merge  --i-tables tableRound4_G033_5863806_G033-P2-71266231_G033INBIW17-P3-70950891_G187-43380337_G187-AD-65358300_ADD-65358301_P2-71557499.qza --i-tables tableRound4_G187-P5-43974931.qza --o-merged-table tableRound4_G033_5863806_G033-P2-71266231_G033INBIW17-P3-70950891_G187-43380337_G187-AD-65358300_ADD-65358301_P2-71557499_P5-43974931.qza
+
+qiime feature-table merge-seqs  --i-data rep-seqs_G033_5863806_G033-P2-71266231_G033INBIW17-P3-70950891_G187-43380337_G187-AD-65358300_ADD-65358301_P2-71557499.qza --i-data rep-seqsRound4_G187-P5-43974931.qza --o-merged-data rep-seqs_G033_5863806_G033-P2-71266231_G033INBIW17-P3-70950891_G187-43380337_G187-AD-65358300_ADD-65358301_P2-71557499_P5-43974931.qza
+
+
+#################################################
+
+qiime feature-table merge  --i-tables tableRound4_G187-P6-70327284.qza --i-tables tableRound4_G187-G187-P7-70305261.qza --o-merged-table tableRound4_G187-P6-P7.qza
+
+#Rep seqs merge
+qiime feature-table merge-seqs  --i-data rep-seqsRound4_G187-P6-70327284.qza  --i-data rep-seqsRound4_G187-P7-70305261.qza --o-merged-data rep-seqs_G187-P6-P7.qza
+
+#################################################
+
+qiime feature-table merge  --i-tables tableRound4_G187-P6-P7.qza --i-tables tableRound4_G187-P8-64971912.qza --o-merged-table tableRound4_G187-P6-P7-P8.qza
+
+#Rep seqs merge
+qiime feature-table merge-seqs  --i-data rep-seqs_G187-P6-P7.qza  --i-data rep-seqsRound4_G187-P8-64971912.qza --o-merged-data rep-seqs_G187-P6-P7-P8.qza
+
+#################################################
+
+
+qiime feature-table merge  --i-tables tableRound4_G187-P6-P7-P8.qza --i-tables tableRound4_G187-P10-65358302.qza --o-merged-table tableRound4_G187-P6-P7-P8-P10.qza
+
+#Rep seqs merge
+qiime feature-table merge-seqs  --i-data rep-seqs_G187-P6-P7-P8.qza  --i-data rep-seqsRound4_G187-P10-65358302.qza --o-merged-data rep-seqs_G187-P6-P7-P8-P10.qza
+
+#################################################
+
+#################################################
+qiime feature-table merge  --i-tables tableRound4_G033_5863806_G033-P2-71266231_G033INBIW17-P3-70950891_G187-43380337_G187-AD-65358300_ADD-65358301_P2-71557499_P5-43974931.qza --i-tables tableRound4_G187-P6-P7-P8-P10.qza --o-merged-table tableRound4_G033_5863806_G033-P2-71266231_G033INBIW17-P3-70950891_G187-43380337_G187-AD-65358300_ADD-65358301_P2-71557499_P5-43974931-P6-P7-P8-10.qza
+
+qiime feature-table merge-seqs  --i-data rep-seqs_G033_5863806_G033-P2-71266231_G033INBIW17-P3-70950891_G187-43380337_G187-AD-65358300_ADD-65358301_P2-71557499_P5-43974931.qza --i-data rep-seqs_G187-P6-P7-P8-P10.qza --o-merged-data rep-seqs_G033_5863806_G033-P2-71266231_G033INBIW17-P3-70950891_G187-43380337_G187-AD-65358300_ADD-65358301_P2-71557499_P5-43974931-P6-P7-P8-10.qza
+
+
+#################################################
+
+
+qiime feature-table summarize --i-table tableRound4_G033_5863806_G033-P2-71266231_G033INBIW17-P3-70950891_G187-43380337_G187-AD-65358300_ADD-65358301_P2-71557499_P5-43974931-P6-P7-P8-10.qza  --o-visualization tableRound4_G033_5863806_G033-P2-71266231_G033INBIW17-P3-70950891_G187-43380337_G187-AD-65358300_ADD-65358301_P2-71557499_P5-43974931-P6-P7-P8-10.qzv
+
+qiime feature-table tabulate-seqs --i-data rep-seqs_G033_5863806_G033-P2-71266231_G033INBIW17-P3-70950891_G187-43380337_G187-AD-65358300_ADD-65358301_P2-71557499_P5-43974931-P6-P7-P8-10.qza  --o-visualization rep-seqs_G033_5863806_G033-P2-71266231_G033INBIW17-P3-70950891_G187-43380337_G187-AD-65358300_ADD-65358301_P2-71557499_P5-43974931-P6-P7-P8-10.qzv
+
+
+
+#####################################################################
+#Export ASV table into an excel-compatible version
+#####################################################################
+
+qiime tools export tableRound4_G033_5863806_G033-P2-71266231_G033INBIW17-P3-70950891_G187-43380337_G187-AD-65358300_ADD-65358301_P2-71557499_P5-43974931-P6-P7-P8-10.qza -—output-dir exported
+
+cd exported
+
+biom convert –i feature-table.biom -o table_Round4.tsv --to-tsv
+
+#####################################################################
+#Export rep seqs and convert to txt file
+#####################################################################
+
+qiime tools export rep-seqs_G033_5863806_G033-P2-71266231_G033INBIW17-P3-70950891_G187-43380337_G187-AD-65358300_ADD-65358301_P2-71557499_P5-43974931-P6-P7-P8-10.qza --output-dir rep_seqs
+
+seqkit fx2tab dna-sequences.fasta > dna-sequences_Round4_112918.txt
+
+
+seqkit fx2tab Round4_112618/ChunyangNewSamples/rep_seqs/dna-sequences.fasta  > dna-sequences_Round4_112918.txt
+
+#################################################
+
+ls *R1* >>R1files.txt
+while read -r LINE; do ./Count.sh $LINE ; done <./R1files.txt>>ResultsOriginalG033_65863806.txt
+
+ls *R1* >>R1files.txt
+while read -r LINE; do ./Count.sh $LINE ; done <./R1files.txt>>ResultsOriginalG033-P2-71266231Manifest.txt
+
+
+ls *R1* >>R1files.txt
+while read -r LINE; do ./Count.sh $LINE ; done <./R1files.txt>>ResultsOriginalG033INBIW17-P3-7095089.txt
+
+
+ls *R1* >>R1files.txt
+while read -r LINE; do ./Count.sh $LINE ; done <./R1files.txt>>ResultsOriginalG187-43380337.txt
+
+ls *R1* >>R1files.txt
+while read -r LINE; do ./Count.sh $LINE ; done <./R1files.txt>>ResultsOriginalG187-AD-65358300.txt
+
+ls *R1* >>R1files.txt
+while read -r LINE; do ./Count.sh $LINE ; done <./R1files.txt>>ResultsOriginalG187-ADD-65358301.txt
+
+ls *R1* >>R1files.txt
+while read -r LINE; do ./Count.sh $LINE ; done <./R1files.txt>>ResultsOriginalG187-P2-71557499.txt
+
+ls *R1* >>R1files.txt
+while read -r LINE; do ./Count.sh $LINE ; done <./R1files.txt>>ResultsOriginalG187-P5-43974931.txt
+
+ls *R1* >>R1files.txt
+while read -r LINE; do ./Count.sh $LINE ; done <./R1files.txt>>ResultsOriginalG187-P6-70327284.txt
+
+ls *R1* >>R1files.txt
+while read -r LINE; do ./Count.sh $LINE ; done <./R1files.txt>>ResultsOriginalG187-P7-70305261.txt
+
+
+
+ls *R1* >>R1files.txt
+while read -r LINE; do ./Count.sh $LINE ; done <./R1files.txt>>ResultsOriginalG187-P8-64971912.txt
+
+ls *R1* >>R1files.txt
+while read -r LINE; do ./Count.sh $LINE ; done <./R1files.txt>>ResultsOriginalG187-P10-65358302.txt
+
+
+#################################################
+#################################################
+
+qiime tools export tableRound4_G033_5863806_G033-P2-71266231_G033INBIW17-P3-70950891_G187-43380337_G187-AD-65358300_ADD-65358301_P2-71557499_P5-43974931-P6-P7-P8-10.qza  -—output-dir exported1
+
+biom convert –i feature-table.biom -o tableRound4_G033_5863806_G033-P2-71266231_G033INBIW17-P3-70950891_G187-43380337_G187-AD-65358300_ADD-65358301_P2-71557499_P5-43974931-P6-P7-P8-10.tsv --to-tsv
+
+
+
+# Run with R
+
+
+seq<-read.csv("/Volumes/LaCie/Microbiome/ChunyangNewSamples/dna-sequences_Round4_120318.csv",as.is=T)
+
+
+#seq<-read.csv("dna-sequences.csv",as.is=T)
+
+set.seed(100)
+
+library(dada2)
+
+
+taxa <- assignTaxonomy(seq$Seq, "rdp_train_set_16.fa", multithread=T,minBoot=80)
+a<-unname(taxa)
+
+A<-cbind(seq,a)
+write.csv(A,file="RDPtaxasetRound4_80.csv")
+
+
+
+#
+
+library(phyloseq)
+library(dada2)
+Seqs<-seq[1:5000,]
+
+genus.species <- assignSpecies(Seqs$Seq, "rdp_species_assignment_16.fa", allowMultiple=TRUE,verbose=T)
+b<-unname(genus.species)
+rownames(b)<-Seqs$ASV
+write.csv(b,file="RDPtaxasetRound4SpeciesSet1_80.csv")
+
+
+
+set.seed(100)
+library(dada2)
+
+Seqs4<-seq[5001:10000,]
+
+genus.species <- assignSpecies(Seqs4$Seq, "rdp_species_assignment_16.fa", allowMultiple=TRUE)
+b<-unname(genus.species)
+rownames(b)<-Seqs4$ASV
+write.csv(b,file="RDPtaxasetRound4SpeciesSet2_80.csv")
+
+
+
+
+
+
+
+
+
+
+set.seed(100)
+library(dada2)
+
+Seqs5<-seq[10001:20000,]
+
+genus.species <- assignSpecies(Seqs5$Seq, "rdp_species_assignment_16.fa", allowMultiple=TRUE)
+b<-unname(genus.species)
+rownames(b)<-Seqs5$ASV
+write.csv(b,file="RDPtaxasetRound4SpeciesSet3_80.csv")
+
+
+
+
+set.seed(100)
+library(dada2)
+
+Seqs6<-seq[20001:30000,]
+
+genus.species <- assignSpecies(Seqs6$Seq, "rdp_species_assignment_16.fa", allowMultiple=TRUE)
+b<-unname(genus.species)
+rownames(b)<-Seqs6$ASV
+write.csv(b,file="RDPtaxasetRound4SpeciesSet4_80.csv")
+
+
+
+
+
+
+
+set.seed(100)
+library(dada2)
+
+Seqs7<-seq[30001:36948,]
+
+genus.species <- assignSpecies(Seqs7$Seq, "rdp_species_assignment_16.fa", allowMultiple=TRUE)
+b<-unname(genus.species)
+rownames(b)<-Seqs7$ASV
+write.csv(b,file="RDPtaxasetRound4SpeciesSet5_80.csv")
+
+
+#Pruning
+
+library(phyloseq)
+biom<-read.csv("/Volumes/LaCie/Microbiome/ChunyangNewSamples/tableRound4_G033_5863806_G033-P2-71266231_G033INBIW17-P3-70950891_G187-43380337_G187-AD-65358300_ADD-65358301_P2-71557499_P5-43974931-P6-P7-P8-10.csv",as.is=T,row.names=1)
+
+
+tax<-read.csv("/Volumes/LaCie/Microbiome/ChunyangNewSamples/RDPtaxasetRound4_80.csv",as.is=T)
+
+biom<-as.matrix(biom)
+
+
+biom<-biom[order(rownames(biom)),]
+tax<-tax[order(tax$ASV),]
+
+OTU = otu_table(biom, taxa_are_rows = TRUE)
+physeq = phyloseq(OTU)
+#36948 taxa and 842 samples
+
+#Drop singletons and samples with less than 2,000 reads
+
+physeq1 = prune_samples(sample_sums(physeq)>2000,physeq)
+#36948 taxa and 819 samples
+
+hist(sample_sums(physeq1))
+summary(sample_sums(physeq1))
+#hmmm... no obvious place to cut upper limit.
+
+physeq3 <-prune_taxa(taxa_sums(physeq1) > 1, physeq1)
+#36205 taxa and 819 samples
+
+table(rownames(biom)==(tax$ASV))
+
+biom$SUMS<-rowSums(biom)
+
+
+
+dat<-as.data.frame(otu_table(physeq3))
+dat <- as.matrix(dat)
+
+dat.matrix = matrix(nrow = 36205 , ncol = 819 )
+dat.matrix[1:10,1:10]
+
+for (i in 1:36205) 
+{
+  for(j in 1:819)
+  {
+    dat.matrix[i, j] = ifelse(dat[i,j] > 0 , 1, 0)
+    print(c(i,j))
+  }
+}
+
+
+rownames(dat.matrix)<-rownames(dat)
+colnames(dat.matrix)<-colnames(dat)
+Dat<-dat.matrix
+Dat<-as.data.frame(Dat)
+Dat$Sums<-rowSums(Dat)
+########
+asv<-Dat
+
+asv1<-asv[which(asv$Sums==1), ]
+#27512 are found in only one person
+asv2<-subset(asv,asv$Sums>1)
+
+physeq4<-otu_table(physeq3)[rownames(otu_table(physeq3))%in%rownames(asv1)==F,]
+dim(physeq4)
+# 8693  819
+write.csv(as.data.frame(otu_table(physeq4)),file="table_Round4_NosingletonNopersonton_121718.csv")
+
+
+A<-as.data.frame(otu_table(physeq4))
+
+At<-as.data.frame(t(A),quote=F)
+At$SUM<-rowSums(At)
+AT<-as.data.frame(At$SUM)
+rownames(AT)<-rownames(At)
+
+A$SUM<-rowSums(A)
+
+
+write.csv(AT,file="CountsAfterRemovingPersontonSingleton_Round4_121818.csv")
+
+rdp<-tax
+merged<-merge(rdp,A,by.x="ASV",by.y="row.names")
+
+genus<-subset(merged,merged$Genus!="NA")
+
+# 5395 classify to genus
+sum(genus$SUM)/sum(A$SUM)
+# 86.87% classify to genus
+
+write.csv(genus, file="table_Round4_NosingletonNopersonton_121718_genusclassified.csv")
+
+genus<-genus[,-829]
+genus<-genus[,-c(3:9)]
+rownames(genus)<-genus$ASV
+genus<-genus[,-c(1:2)]
+# 5395  819
+
+#Diversity scores
+
+set.seed(3)
+OTU = otu_table(genus, taxa_are_rows = TRUE)
+physeq1= phyloseq(OTU)
+
+min_lib <- min(sample_sums(physeq1))
+# 1493
+
+set.seed(3)
+
+
+nsamp = 819
+trials = 1000
+OTU = otu_table(biom, taxa_are_rows = TRUE)
+physeq = phyloseq(OTU)
+
+
+richness <- matrix(nrow = nsamp, ncol = trials)
+row.names(richness) <- sample_names(physeq1)
+
+evenness <- matrix(nrow = nsamp, ncol = 1)
+row.names(evenness) <- sample_names(physeq1)
+
+
+for (i in 1:1000) {
+  # Subsample
+  r <- rarefy_even_depth(physeq1, sample.size = min_lib, verbose = T, replace = TRUE)
+  
+  # Calculate richness
+  rich <- estimate_richness(r, measures = "Chao1")
+  richness[ ,i] <- rich[,1]
+  
+}
+
+
+
+
+SampleID <- row.names(richness)
+mean <- apply(richness, 1, mean)
+sd <- apply(richness, 1, sd)
+measure <- rep("Richness", nsamp)
+rich_stats <- data.frame(SampleID, mean, sd, measure)
+
+
+alpha <- rbind(rich_stats, even_stats)
+
+s <- data.frame(sample_data(physeq1))
+chao1 <- merge(rich_stats, s, by.x = "SampleID",by.y="row.names") 
+
+# Calculate evenness
+r <- rarefy_even_depth(physeq1, sample.size = min_lib, verbose = T, replace = TRUE)
+even <- as.numeric(as.matrix(estimate_richness(r, measures = "Shannon")))
+evenness[ ,1] <- even
+
+chao1 <- merge(rich_stats, s, by.x = "SampleID",by.y="row.names") 
+shan <- merge(chao1, evenness, by.x = "SampleID",by.y="row.names") 
+
+write.csv(shan,file="NewDiversityScores_80_121718_Longformat.csv")
+
+
+
+
